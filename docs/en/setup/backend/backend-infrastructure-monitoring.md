@@ -116,4 +116,4 @@ In these metrics, the pods are related to the selected service (`Current Endpoin
 ## Customizing 
 You can customize your own metrics/expression/dashboard panel.   
 The metrics definition and expression rules are found in `/config/otel-oc-rules/k8s-cluster.yaml，/config/otel-oc-rules/k8s-node.yaml, /config/otel-oc-rules/k8s-service.yaml`.  
-The dashboard panel configurations are in found `/config/ui-initialized-templates/k8s.yml`.
+The dashboard panel configurations are found in `/config/ui-initialized-templates/k8s.yml`.
