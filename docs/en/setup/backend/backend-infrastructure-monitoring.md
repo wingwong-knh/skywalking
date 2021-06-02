@@ -39,28 +39,28 @@ The dashboard panel confirmations are found in `/config/ui-initialized-templates
 For more details, see blog article [SkyWalking 8.4 provides infrastructure monitoring](https://skywalking.apache.org/blog/2021-02-07-infrastructure-monitoring/).
 
 # K8s monitoring 
-SkyWalking leverages K8s kube-state-metrics and cAdvisor for collecting metrics data from the K8s, and leverages OpenTelemetry Collector to transfer the metrics to
+SkyWalking leverages K8s kube-state-metrics and cAdvisor for collecting metrics data from K8s, and leverages OpenTelemetry Collector to transfer the metrics to
 [OpenTelemetry receiver](backend-receivers.md#opentelemetry-receiver) and into the [Meter System](./../../concepts-and-designs/meter.md). This feature requires authorizing the OAP Server to access K8s's `API Server`.  
-We defined the k8s-cluster as a `Service` in OAP, use `k8s-cluster::` as a prefix to identify.  
-Defined the k8s-node as an `Instance` in OAP, the name is k8s `node name`.  
-Defined the k8s-service as an `Endpoint` in OAP, the name is `$serviceName.$namespace`.  
+We define the k8s-cluster as a `Service` in the OAP, and use `k8s-cluster::` as a prefix to identify it.  
+We define the k8s-node as an `Instance` in the OAP, and set its name as the K8s `node name`.  
+We define the k8s-service as an `Endpoint` in the OAP, and set its name as `$serviceName.$namespace`.  
 
 ## Data flow
-1. K8s kube-state-metrics and cAdvisor collects metrics data from the K8s.
+1. K8s kube-state-metrics and cAdvisor collect metrics data from K8s.
 2. OpenTelemetry Collector fetches metrics from kube-state-metrics and cAdvisor via Prometheus Receiver and pushes metrics to SkyWalking OAP Server via the OpenCensus GRPC Exporter.
 3. The SkyWalking OAP Server access to K8s's `API Server` gets meta info and parses the expression with [MAL](../../concepts-and-designs/mal.md) to filter/calculate/aggregate and store the results. 
 
 ## Setup 
 1. Setup [kube-state-metric](https://github.com/kubernetes/kube-state-metrics#kubernetes-deployment).
 2. cAdvisor is integrated into `kubelet` by default.
-3. Setup [OpenTelemetry Collector ](https://opentelemetry.io/docs/collector/getting-started/#kubernetes). Prometheus Receiver in OpenTelemetry Collector for K8s can reference [here](https://github.com/prometheus/prometheus/blob/main/documentation/examples/prometheus-kubernetes.yml). For a quick start, we provided a full example for OpenTelemetry Collector configuration [otel-collector-config.yaml](otel-collector-config.yaml).
+3. Set up [OpenTelemetry Collector ](https://opentelemetry.io/docs/collector/getting-started/#kubernetes). For details on Prometheus Receiver in OpenTelemetry Collector for K8s, refer to [here](https://github.com/prometheus/prometheus/blob/main/documentation/examples/prometheus-kubernetes.yml). For a quick start, we have provided a full example for OpenTelemetry Collector configuration [otel-collector-config.yaml](otel-collector-config.yaml).
 4. Config SkyWalking [OpenTelemetry receiver](backend-receivers.md#opentelemetry-receiver).
 
 ## Supported Metrics
-From the different point of view to monitor the K8s, there are 3 kinds of metrics: [Cluster](#cluster) / [Node](#node) / [Service](#service) 
+From the different points of view to monitor K8s, there are 3 kinds of metrics: [Cluster](#cluster) / [Node](#node) / [Service](#service) 
 
 ### Cluster 
-These metrics are related to the selected cluster(`Current Service in the dashboard`).
+These metrics are related to the selected cluster (`Current Service in the dashboard`).
 
 | Monitoring Panel | Unit | Metric Name | Description | Data Source |
 |-----|-----|-----|-----|-----|
