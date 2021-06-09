@@ -1,48 +1,47 @@
 # Backend setup
-SkyWalking backend distribution package includes the following parts:
+SkyWalking's backend distribution package consists of the following parts:
 
-1. **bin/cmd scripts**, in `/bin` folder. Includes startup linux shell and Windows cmd scripts for Backend
+1. **bin/cmd scripts**: Located in the `/bin` folder. Includes startup linux shell and Windows cmd scripts for the backend
    server and UI startup.
 
-2. **Backend config**, in `/config` folder. Includes settings files of the backend, which are:
+2. **Backend config**: Located in the `/config` folder. Includes settings files of the backend, which are:
     * `application.yml`
     * `log4j.xml`
     * `alarm-settings.yml`
 
-3. **Libraries of backend**, in `/oap-libs` folder. All the dependencies of the backend are in it.
+3. **Libraries of backend**: Located in the `/oap-libs` folder. All dependencies of the backend can be found in it.
 
-4. **Webapp env**, in `webapp` folder. UI frontend jar file is here, with its `webapp.yml` setting file.
+4. **Webapp env**: Located in the `webapp` folder. UI frontend jar file can be found here, together with its `webapp.yml` setting file.
 
 ## Requirements and default settings
 
-Requirement: **JDK8 to JDK12 are tested**, other versions are not tested and may or may not work.
+Requirement: **JDK8 to JDK12 are tested**. Other versions are not tested and may or may not work.
 
-Before you start, you should know that the quickstart aims to get you a basic configuration mostly for previews/demo, performance and long-term running are not our goals.
+Before you start, you should know that the main purpose of quickstart is to help you obtain a basic configuration for previews/demo. Performance and long-term running are not our goals.
 
-For production/QA/tests environments, you should head to [Backend and UI deployment documents](#deploy-backend-and-ui).
+For production/QA/tests environments, see [Backend and UI deployment documents](#deploy-backend-and-ui).
 
-You can use `bin/startup.sh` (or cmd) to startup the backend and UI with their default settings, which are:
+You can use `bin/startup.sh` (or cmd) to start up the backend and UI with their default settings, set out as follows:
 
 - Backend storage uses **H2 by default** (for an easier start)
-- Backend listens `0.0.0.0/11800` for gRPC APIs and `0.0.0.0/12800` for http rest APIs.
+- Backend listens on `0.0.0.0/11800` for gRPC APIs and `0.0.0.0/12800` for HTTP REST APIs.
 
-In Java, DotNetCore, Node.js, Istio agents/probe, you should set the gRPC service address to `ip/host:11800`, with ip/host where your backend is.
-- UI listens on `8080` port and request `127.0.0.1/12800` to do GraphQL query.
+In Java, DotNetCore, Node.js, and Istio agents/probes, you should set the gRPC service address to `ip/host:11800`, and ip/host should be where your backend is.
+- UI listens on `8080` port and request `127.0.0.1/12800` to run a GraphQL query.
 
 ### Interaction
 
-Before deploying Skywalking in your distributed environment, you should know how agents/probes, backend, UI communicates with each other:
+Before deploying Skywalking in your distributed environment, you should know how agents/probes, the backend, and the UI communicate with each other:
 
 <img src="https://skywalking.apache.org/doc-graph/communication-net.png"/>
 
-- All native agents and probes, either language based or mesh probe, are using gRPC service (`core/default/gRPC*` in `application.yml`) to report data to the backend. Also, jetty service supported in JSON format.
+- All native agents and probes, either language based or mesh probe, use the gRPC service (`core/default/gRPC*` in `application.yml`) to report data to the backend. Also, the Jetty service is supported in JSON format.
 - UI uses GraphQL (HTTP) query to access the backend also in Jetty service (`core/default/rest*` in `application.yml`).
 
 
 ## Startup script
 The default startup scripts are `/bin/oapService.sh`(.bat). 
-Read [start up mode](backend-start-up-mode.md) document to know other options
-of starting backend.
+Read the [start up mode](backend-start-up-mode.md) document to learn about other ways to start up the backend.
 
 
 ## application.yml
